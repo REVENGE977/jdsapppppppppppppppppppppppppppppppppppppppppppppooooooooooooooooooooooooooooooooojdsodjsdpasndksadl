@@ -13,9 +13,8 @@ client.on('voiceStateUpdate', (old, now) => {
     if (currentSize !== size) channel.setName(`ONLINE • 「${currentSize}」`);
   });
 
-
+const request = require('request');
 client.on('ready', function() {
- const request = require('request');
     console.log(`i am ready ${client.user.username}`);
 });
 /*
