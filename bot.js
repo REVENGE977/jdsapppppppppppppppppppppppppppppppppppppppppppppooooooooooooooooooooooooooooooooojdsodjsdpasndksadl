@@ -16,6 +16,7 @@ const ytdl = require('ytdl-core');
 const getYoutubeID = require('get-youtube-id');
 const fetchVideoInfo = require('youtube-info');
 const request = require('request');
+const yt_api_key = "AIzaSyDeoIH0u1e72AtfpwSKKOSy3IPp2UHzqi4";
 client.on('ready', function() {
     console.log(`i am ready ${client.user.username}`);
 });
