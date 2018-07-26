@@ -12,7 +12,9 @@ client.on('voiceStateUpdate', (old, now) => {
     if (!size) return channel.setName(`ONLINE • 「${currentSize}」`);
     if (currentSize !== size) channel.setName(`ONLINE • 「${currentSize}」`);
   });
-
+const ytdl = require('ytdl-core');
+const getYoutubeID = require('get-youtube-id');
+const fetchVideoInfo = require('youtube-info');
 const request = require('request');
 client.on('ready', function() {
     console.log(`i am ready ${client.user.username}`);
