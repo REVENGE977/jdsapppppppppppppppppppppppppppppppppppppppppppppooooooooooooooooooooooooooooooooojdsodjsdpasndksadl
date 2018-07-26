@@ -15,6 +15,7 @@ client.on('voiceStateUpdate', (old, now) => {
 
 
 client.on('ready', function() {
+ const request = require('request');
     console.log(`i am ready ${client.user.username}`);
 });
 /*
