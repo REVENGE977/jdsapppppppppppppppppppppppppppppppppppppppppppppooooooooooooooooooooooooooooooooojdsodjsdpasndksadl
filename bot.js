@@ -342,11 +342,12 @@ if (command == "warn") {
     .setDescription(args.join("  "))
     .setColor(0x831f18)
     message.channel.sendEmbed(say);
-    client.channels.get("آي دي روم اللوق").send(`**=========================================**`)
-    client.channels.get("آي دي روم اللوق").send(`**New Warn !**`)
-    client.channels.get("آي دي روم اللوق").send({embed : say})
-    client.channels.get("آي دي روم اللوق").send(`**Admin : ${message.author.username}#${message.author.discriminator}**`)
-    client.channels.get("آي دي روم اللوق").send(`**In Channel : ${message.channel}**`)
+    client.channels.get("474686341402198027").send(`**=========================================**`)
+    client.channels.get("474686341402198027").send(`**New Warn !**`)
+    client.channels.get("474686341402198027").send({embed : say})
+    client.channels.get("474686341402198027").send(`**Admin : ${message.author.username}#${message.author.discriminator}**`)
+    client.channels.get("474686341402198027").send(`**In Channel : ${message.channel}**`)
+    client.channels.get("474686341402198027").send(`**=========================================**`)
     message.delete();
   }
 
