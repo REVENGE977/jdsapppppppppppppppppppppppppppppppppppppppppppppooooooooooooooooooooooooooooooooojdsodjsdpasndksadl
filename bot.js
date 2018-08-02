@@ -284,4 +284,111 @@ msg.delete();
 
 
 
+
+const mmss = require('ms');
+client.on('message', async message => {
+    let muteReason = message.content.split(" ").slice(3).join(" ");
+    let mutePerson = message.mentions.users.first();
+    let messageArray = message.content.split(" ");
+    let muteRole = message.guild.roles.find("name", "Chat-Muted");
+    let time = messageArray[2];
+    if(message.content.startsWith(prefix + "tempmute")) {
+                let staff = message.guild.member(message.author).roles.find('name' , 'Chat-Muter');
+                                if(!staff) return message.reply('**- You don\'t have the needed permissions!**');
+        if(!mutePerson) return message.channel.send("**- منشن الشخص يلي تبي تعطيه الميوت**");
+        if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
+        if(mutePerson === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
+        if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
+        if(!muteRole) return message.guild.createRole({ name: "Chat-Muted", permissions: [] });
+        if(!time) return message.channel.send("**- اكتب الوقت**");
+        if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
+        if(!muteReason) return message.channel.send("**- اكتب السبب**");
+        message.guild.member(mutePerson).addRole(muteRole);
+        let muteEmbed = new Discord.RichEmbed()
+        .setAuthor(`${mutePerson.username}#${mutePerson.discriminator}`,mutePerson.avatarURL)
+        .setTitle(`You have been muted in ${message.guild.name}`)
+        .setThumbnail(message.guild.iconURL)
+        .addField('- تم الميوت بواسطه:',message.author,true)
+        .addField('- السبب:',muteReason,true)
+        .addField('- الوقت:',`${mmss(mmss(time), {long: true})}`)
+        .setFooter(message.author.username,message.author.avatarURL);
+        message.channel.sendMessage(muteEmbed)
+        .then(() => { setTimeout(() => {
+           message.guild.member(mutePerson).removeRole(muteRole);
+       }, mmss(time));
+    });
+    }
+});
+
+
+  var prefix = "$";
+
+client.on('message', message => {
+  if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
+  if(!message.channel.guild) return;
+  if(!message.member.hasPermission('MANAGE_MESSAGES')) return;
+  if (message.mentions.users.size < 1) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+  
+ 
+
+if (command == "warn") {
+    let say = new Discord.RichEmbed()
+    .setDescription(args.join("  "))
+    .setColor(0x831f18)
+    message.channel.sendEmbed(say);
+    client.channels.get("آي دي روم اللوق").send(`**=========================================**`)
+    client.channels.get("آي دي روم اللوق").send(`**New Warn !**`)
+    client.channels.get("آي دي روم اللوق").send({embed : say})
+    client.channels.get("آي دي روم اللوق").send(`**Admin : ${message.author.username}#${message.author.discriminator}**`)
+    client.channels.get("آي دي روم اللوق").send(`**In Channel : ${message.channel}**`)
+    message.delete();
+  }
+
+
+});
+
+
+
+
+client.on('message', async message => {
+    var moment = require('moment');
+    let date = moment().format('Do MMMM YYYY , hh:mm');
+    let User = message.mentions.users.first();
+    let Reason = message.content.split(" ").slice(3).join(" ");
+    let messageArray = message.content.split(" ");
+    let time = messageArray[2];
+    if(message.content.startsWith(prefix + "tempban")) {
+       if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**- ما معك برمشن**");
+       if(!User) message.channel.send("**- منشن يلي تبي تبنده**");
+       if(User.id === client.user.id) return message.channel.send("**- ماتقدر تبند البوت**");
+       if(User.id === message.guild.owner.id) return message.channel.send("**- ماتقدر تبند الاونر**");
+       if(!time) return message.channel.send("**- اكتب الوقت**");
+       if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
+       if(!Reason) message.channel.send("**- اكتب السبب**");
+       let banEmbed = new Discord.RichEmbed()
+       .setAuthor(`You have been banned from ${message.guild.name} !`)
+       .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+       .addField('- تم التبنيد بواسطه: ',message.author.tag,true)
+       .addField('- السبب:',Reason,true)
+       .addField('- الوقت يلي حصل فيه الباند:',date,true)
+       .addField('- مده الباند:',time,true)
+       .addField('رابط السيرفر https://discord.gg/h2KpNkt')
+       .setFooter(message.author.tag,message.author.avatarURL);
+       User.sendMessage({embed: banEmbed}).then(() => message.guild.member(User).ban({reason: Reason}))
+       .then(() => message.channel.send(`**# Done! I banned: ${User}**`)).then(() => { setTimeout(() => {
+           message.guild.unban(User);
+       }, mmss(time));
+        client.users.get(User.id).send('https://discord.gg/gw3eVa2')
+    });
+   }
+});
+
+
+
 client.login(process.env.BOT_TOKEN);
