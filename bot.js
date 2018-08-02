@@ -323,21 +323,15 @@ client.on('message', async message => {
  
 
 client.on('message', message => {
- var prefix = '-'
+
   if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
   if(!message.channel.guild) return;
-  if(!message.member.hasPermission('MANAGE_MESSAGES')) return;
   if (message.mentions.users.size < 1) return;
-
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
-
   let args = message.content.split(" ").slice(1);
   
  
 
-if (command == "warn") {
+ if(message.content.startsWith(prefix + "warn")) {
                  let staff = message.guild.member(message.author).roles.find('name' , 'Warns');
                                 if(!staff) return message.reply('**- You don\'t have Warns Role**');
     let say = new Discord.RichEmbed()
