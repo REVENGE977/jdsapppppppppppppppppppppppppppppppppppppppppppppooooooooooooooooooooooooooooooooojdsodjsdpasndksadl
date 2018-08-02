@@ -290,7 +290,7 @@ client.on('message', async message => {
     let muteReason = message.content.split(" ").slice(3).join(" ");
     let mutePerson = message.mentions.users.first();
     let messageArray = message.content.split(" ");
-    let muteRole = message.guild.roles.find("name", "Chat-Muted");
+    let muteRole = message.guild.roles.find("name", "Muted");
     let time = messageArray[2];
     if(message.content.startsWith(prefix + "tempmute")) {
                 let staff = message.guild.member(message.author).roles.find('name' , 'Chat-Muter');
@@ -321,7 +321,7 @@ client.on('message', async message => {
 });
 
 
-  var prefix = "$";
+ 
 
 client.on('message', message => {
   if (message.author.bot) return;
@@ -338,6 +338,8 @@ client.on('message', message => {
  
 
 if (command == "warn") {
+                 let staff = message.guild.member(message.author).roles.find('name' , 'Warns');
+                                if(!staff) return message.reply('**- You don\'t have Warns Role**');
     let say = new Discord.RichEmbed()
     .setDescription(args.join("  "))
     .setColor(0x831f18)
@@ -365,7 +367,7 @@ client.on('message', async message => {
     let messageArray = message.content.split(" ");
     let time = messageArray[2];
     if(message.content.startsWith(prefix + "tempban")) {
-       if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**- ما معك برمشن**");
+       if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**- BAN_MEMBERSما معك برمشن**");
        if(!User) message.channel.send("**- منشن يلي تبي تبنده**");
        if(User.id === client.user.id) return message.channel.send("**- ماتقدر تبند البوت**");
        if(User.id === message.guild.owner.id) return message.channel.send("**- ماتقدر تبند الاونر**");
