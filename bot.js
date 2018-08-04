@@ -338,7 +338,9 @@ client.on('message', message => {
 client.on('message', async message => {
     let wUser = message.mentions.members.first();
     let wReason = message.content.split(" ").slice(2).join(" ");
+ 
    if(message.content.startsWith(prefix + "warn")) {
+    
                        let staff = message.guild.member(message.author).roles.find('name' , 'Warns');
                                 if(!staff) return message.reply('**- You Dont have Warns Role**');
        if(!wUser) return message.channel.send("**- اكتب منشن يلي تبي تعطيه وارن**");
