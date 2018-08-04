@@ -335,38 +335,40 @@ client.on('message', message => {
 
 
 
-client.on('message', async message => {
-    let wUser = message.mentions.members.first();
-    let wReason = message.content.split(" ").slice(2).join(" ");
+var prefix = "$";
+
+client.on('message', message => {
+  if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
+  if(!message.channel.guild) return;
+  if(!message.member.hasPermission('MANAGE_MESSAGES')) return;
+  if (message.mentions.users.size < 1) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+  
  
-   if(message.content.startsWith(prefix + "warn")) {
-    
-                       let staff = message.guild.member(message.author).roles.find('name' , 'Warns');
-                                if(!staff) return message.reply('**- You Dont have Warns Role**');
-       if(!wUser) return message.channel.send("**- اكتب منشن يلي تبي تعطيه وارن**");
-       if(!wReason) return message.channel.send('**- اكتب السبب**');
 
-
-
-
+if (command == "warn") {
+    let say = new Discord.RichEmbed()
+    .setDescription(args.join("  "))
+    .setColor(0x831f18)
+    message.channel.send(args.join(' '));
+    client.channels.get("آي دي روم اللوق").send(`**=========================================**`)
+    client.channels.get("آي دي روم اللوق").send(`**New Warn !**`)
+    client.channels.get("آي دي روم اللوق").send(args.join(' '))
+    client.channels.get("آي دي روم اللوق").send(`**Admin : ${message.author.username}#${message.author.discriminator}**`)
+    client.channels.get("آي دي روم اللوق").send(`**In Channel : ${message.channel}**`)
+    message.delete();
+ 
        message.channel.send(`**- Done!, I warned: ${wUser}**`);
-
-       let say = new Discord.RichEmbed()
-       .setDescription(args.join("  "))
-       .setColor(0x831f18)
-       message.channel.sendEmbed(say);
-       client.channels.get("474686341402198027").send(`**=========================================**`)
-       client.channels.get("474686341402198027").send(`**New Warn !**`)
-       client.channels.get("474686341402198027").send({embed : say})
-       client.channels.get("474686341402198027").send(`**Admin : ${message.author.username}#${message.author.discriminator}**`)
-       client.channels.get("474686341402198027").send(`**In Channel : ${message.channel}**`)
-       client.channels.get("474686341402198027").send(`**=========================================**`)
-
-
-    }
+  }
 
 
 });
+
 
 
 
@@ -413,7 +415,7 @@ client.on('message', msg => {
   command = command.slice(prefix.length);
   let args = msg.content.split(" ").slice(1);
 
-    if(command === "nclear") {
+    if(command === "clear") {
         const emoji = client.emojis.find("name", "wastebasket")
     let textxt = args.slice(0).join("");
     if(msg.member.hasPermission("MANAGE_MESSAGES")) {
